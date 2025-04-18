@@ -23,16 +23,16 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true, nullable = false)
     @NotBlank
     @Size(min = 3, max = 100)
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     @NotBlank
     @Size(min = 8, max = 50)
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<Task>();
 }

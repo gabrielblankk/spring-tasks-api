@@ -24,21 +24,21 @@ public class Task {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     @NotBlank
     private User user;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     @NotBlank
     @Size(min = 1, max = 255)
     private String description;
 
-    @Column(name = "due_date")
+    @Column(name = "due_date", nullable = false)
     @NotBlank
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dueDate;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     @NotBlank
     @Size(min = 1, max = 20)
     private String status;
