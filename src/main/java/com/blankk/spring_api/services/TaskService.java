@@ -1,5 +1,6 @@
 package com.blankk.spring_api.services;
 
+import com.blankk.spring_api.dtos.TaskUpdateDTO;
 import com.blankk.spring_api.models.Task;
 import com.blankk.spring_api.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,24 +24,26 @@ public class TaskService {
         return task.orElseThrow(() -> new RuntimeException("Task não encontrada: Id:" + id));
     }
 
-    public List<Task> getByUser(Long id) {
+    public List<Task> getByUserId(Long id) {
+        userService.getById(id);
+
         return taskRepository.findByUser_Id(id);
     }
 
     @Transactional
     public Task create(Task obj) {
-        this.userService.getById(obj.getUser().getId());
-        obj.setId(null);
-        obj = taskRepository.save(obj);
-        return obj;
+        userService.getById(obj.getUser().getId());
+
+        return taskRepository.save(obj);
     }
 
     @Transactional
-    public Task update(Task obj) {
-        Task newObj = getById(obj.getId());
+    public Task update(Long id, TaskUpdateDTO obj) {
+        Task newObj = getById(id);
         newObj.setDescription(obj.getDescription());
         newObj.setStatus(obj.getStatus());
         newObj.setDueDate(obj.getDueDate());
+
         return taskRepository.save(newObj);
     }
 
