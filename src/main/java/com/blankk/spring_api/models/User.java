@@ -1,5 +1,6 @@
 package com.blankk.spring_api.models;
 
+import com.blankk.spring_api.dtos.UserCreateDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -17,6 +18,11 @@ import java.util.List;
 @Table(name = User.TABLE_NAME)
 public class User {
     public static final String TABLE_NAME = "user";
+
+    public User(UserCreateDTO obj) {
+        setUsername(obj.getUsername());
+        setPassword(obj.getPassword());
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
