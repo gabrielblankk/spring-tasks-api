@@ -14,16 +14,18 @@ public class UserService {
     private UserRepository userRepository;
 
     public User getById(Long id) {
-        Optional<User> user = this.userRepository.findById(id);
+        Optional<User> user = userRepository.findById(id);
 
         return user.orElseThrow(() -> new RuntimeException("Usuário não encontrado: Id:" + id));
     }
 
     @Transactional
     public User create(User obj) {
-        obj.setId(null);
-        obj = this.userRepository.save(obj);
-        return obj;
+        if (userRepository.existsByUsername(obj.getUsername())) {
+            throw new RuntimeException("Um usuário com esse nome já existe.");
+        }
+
+        return userRepository.save(obj);
     }
 
     @Transactional
